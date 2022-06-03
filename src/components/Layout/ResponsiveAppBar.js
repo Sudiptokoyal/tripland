@@ -12,11 +12,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
+import { useHistory } from 'react-router-dom'
 
 const pages = ['Flights', 'Hotels', 'Bus'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const title = 'TRIPLAND'
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
+  const { user } = props;
+  const { isLoggedIn: showUserMenu } = user;
+  const history = useHistory();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -55,7 +61,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            TRIPLAND
+            {title}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -111,7 +117,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            TRIPLAND
+            {title}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -125,7 +131,7 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          {showUserMenu && <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -153,7 +159,23 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box>}
+
+          
+          {!showUserMenu && <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}> 
+            <Button
+                onClick={() => {history.push('/login')}}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+              Login
+            </Button> 
+            <Button
+                onClick={() => {history.push('/signup')}}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+              Signup
+            </Button> 
+          </Box>}
         </Toolbar>
       </Container>
     </AppBar>

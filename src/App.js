@@ -1,23 +1,36 @@
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
+import { connect } from "react-redux";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
+
 import {
-  BrowserRouter,
-  Routes,
+  BrowserRouter as Router,
+  Switch,
   Route,
 } from "react-router-dom";
+import { LocalizationProvider } from '@mui/lab';
 
-function App() {
+function App(props) {
+
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="login" element={<Login />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Router>
+        <Layout user={props.user || null}>
+          <Switch>
+            <Route path="/" ><Landing /></Route>
+            <Route path="/login" exact ><Login /></Route>
+            <Route path="/signup" exact ><Login /></Route>
+          </Switch>
+        </Layout>
+      </Router>
+    </LocalizationProvider>
   )
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return { user: state.user }
+}
+
+export default connect(mapStateToProps)(App);

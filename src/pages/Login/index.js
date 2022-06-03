@@ -1,5 +1,5 @@
 import React from 'react';
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -29,15 +29,26 @@ const loginStyles = {
 const quotes = [
     "Traveling – it leaves you speechless, then turns you into a storyteller",
     "The world is a book and those who do not travel read only one page."
-]
+];
+
+const initFormState = {
+    username: '', password: ''
+}
 
 const Login = () => {
     const [isLogin, setIsLogin] = React.useState(true);
-    // const history = useHistory();
+    const [userForm, setUserForm] = React.useState(initFormState)
+    const history = useHistory();
 
     const submitHandler = () => {
         // route to home or landing page
-        // history.push('/')
+        history.push('/')
+    }
+
+    const inputHandler = (e) => {
+        setUserForm((prevState) => {
+            return {...prevState, [e.target.name]: e.target.value }
+        });
     }
 
     return (
@@ -78,8 +89,22 @@ const Login = () => {
                             noValidate
                             autoComplete="off"
                             >
-                            <TextField id="username" label="Username" variant="filled" />
-                            <TextField id="password" label="Password" type="password" variant="filled" />
+                            <TextField 
+                                id="username" 
+                                name="username"
+                                label="Username" 
+                                variant="filled" 
+                                value={userForm.username}
+                                onChange={inputHandler} />
+                            <TextField 
+                                id="password" 
+                                label="Password" 
+                                name="password"
+                                type="password" 
+                                variant="filled" 
+                                value={userForm.password}
+                                onChange={inputHandler}
+                                 />
                             <Button variant="contained" size="large" sx={{py: 2}} onClick={submitHandler}>{isLogin ? 'Login' : 'Register'}</Button>
                         </Box>
                         {isLogin && <p>Not registered yet? <Link>Register</Link> here!!</p>}
