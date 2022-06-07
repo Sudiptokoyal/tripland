@@ -19,7 +19,8 @@ function App(props) {
       <Router>
         <Layout user={props.user || null}>
           <Switch>
-            <Route path="/" ><Landing /></Route>
+            <Route path="/" exact><Landing /></Route>
+            <Route path="/flights" exact><Landing /></Route>
             <Route path="/login" exact ><Login /></Route>
             <Route path="/signup" exact ><Login /></Route>
           </Switch>
