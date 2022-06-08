@@ -10,10 +10,10 @@ function Layout(props) {
           height: 'calc(100vh - 64px)',
           overflowY: 'auto',
           overflowX: 'hidden',
-          maxWidth: '1536px',
-          margin: 'auto'
         }}>
+          <Box sx={{maxWidth: '1536px', margin: 'auto'}}>
             {props.children}
+          </Box>
         </Box>
       </>
   )

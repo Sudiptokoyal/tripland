@@ -7,7 +7,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import { Provider } from "react-redux";
-import store from '../src/store/store';
+import { store, persistor } from '../src/store/store';
+import { PersistGate } from 'redux-persist/integration/react'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,7 +17,9 @@ root.render(
      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Provider store={store}>
-          <App />
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+          </PersistGate>
         </Provider>
      </ThemeProvider>
   // </React.StrictMode>

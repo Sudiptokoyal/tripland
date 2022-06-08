@@ -41,7 +41,7 @@ const quotes = [
 
 const initFormState = {
     value: { name: '', username: '', password: '' },
-    error: { username: '', password: '' }
+    error: { username: '', password: '', name: '' }
 }
 
 const Login = (props) => {
@@ -128,6 +128,9 @@ const Login = (props) => {
             return;
         }
 
+        // reset all errors
+        setUserForm((prevState) => ({...prevState, error: initFormState.error}));
+            
         if(!isLogin) {
             if (!name) { // Name validation
                 setUserForm((prevState) => (
@@ -226,7 +229,7 @@ const Login = (props) => {
                                 value={userForm.value.password}
                                 onChange={inputHandler}
                                  />
-                            <Button variant="contained" size="large" sx={{py: 2}} onClick={submitHandler}>{
+                            <Button variant="contained" size="large" disabled={loading} sx={{py: 2}} onClick={submitHandler}>{
                                 loading ? <CircularProgress /> : 
                                 isLogin ? 'Login' : 'Register'}
                             </Button>

@@ -87,7 +87,7 @@ const Landing = (props) => {
 
   const bookHandler = (flightData) => {
     if(!props.user.isLoggedIn) {
-      history.push('/login')
+      history.push('/login?returnUrl=/')
     }
 
     

@@ -37,8 +37,9 @@ const ResponsiveAppBar = (props) => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
     setAnchorElUser(null);
+    props.onLogout();
   };
 
   return (

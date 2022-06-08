@@ -3,21 +3,29 @@ import Login from './pages/Login';
 import Landing from './pages/Landing';
 import { connect } from "react-redux";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-
-
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  useHistory
 } from "react-router-dom";
 import { LocalizationProvider } from '@mui/lab';
+import { logout } from './utility/auth';
+import { resetUser } from './store/actions/user.action';
 
 function App(props) {
+  // const history = useHistory();
+
+  const logoutHanler = () => {
+    console.log('herere')
+    logout();
+    props.resetUser();
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Router>
-        <Layout user={props.user || null}>
+        <Layout user={props.user || null} onLogout={logoutHanler}>
           <Switch>
             <Route path="/" exact><Landing /></Route>
             <Route path="/flights" exact><Landing /></Route>
@@ -34,4 +42,8 @@ const mapStateToProps = (state) => {
   return { user: state.user }
 }
 
-export default connect(mapStateToProps)(App);
+const matchDispatchToProps = (dispatch) => {
+  return { resetUser: () => dispatch(resetUser())}
+}
+
+export default connect(mapStateToProps,matchDispatchToProps)(App);
