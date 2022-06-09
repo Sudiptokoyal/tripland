@@ -106,10 +106,23 @@ const Login = (props) => {
           setShowAlert(true);
           setLoading(false);
         }
-      };
+    };
 
     const submitHandler = () => {
         const { username: email, password, name } = userForm.value;
+        if(!isLogin) {
+            if (!name) { // Name validation
+                setUserForm((prevState) => (
+                    {...prevState, 
+                        error: {...prevState.error, name: 'This field is required.'}}));
+                return;
+            } else if (name.length < 3) {
+                setUserForm((prevState) => (
+                    {...prevState, 
+                        error: {...prevState.error, name: 'Minimum 3 characters long required.'}}));
+                return;
+            }
+        }
         if(!email) { // Email Validation
             setUserForm((prevState) => (
                 {...prevState, 
@@ -131,19 +144,6 @@ const Login = (props) => {
         // reset all errors
         setUserForm((prevState) => ({...prevState, error: initFormState.error}));
             
-        if(!isLogin) {
-            if (!name) { // Name validation
-                setUserForm((prevState) => (
-                    {...prevState, 
-                        error: {...prevState.error, name: 'This field is required.'}}));
-                return;
-            } else if (name.length < 3) {
-                setUserForm((prevState) => (
-                    {...prevState, 
-                        error: {...prevState.error, name: 'Minimum 3 characters long required.'}}));
-                return;
-            }
-        }
 
         if(email && password) {
             if (isLogin) logInWithEmailAndPassword(email, password);

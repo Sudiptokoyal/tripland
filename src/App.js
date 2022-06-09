@@ -7,20 +7,24 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useHistory
 } from "react-router-dom";
 import { LocalizationProvider } from '@mui/lab';
 import { logout } from './utility/auth';
 import { resetUser } from './store/actions/user.action';
+import React from 'react';
 
 function App(props) {
   // const history = useHistory();
 
   const logoutHanler = () => {
-    console.log('herere')
     logout();
     props.resetUser();
   }
+
+  React.useEffect(() => {
+    
+  }, [props.user.isLoggedIn]);
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

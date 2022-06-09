@@ -1,19 +1,21 @@
 import * as actionTypes from '../actionTypes';
-import axios from 'axios';
+import { db, collection, getDocs } from '../../firebase'
+
 
 export const setAirports = () => {
-    return (dispatch) => {
-        const url = `https://629497a963b5d108c18ecfb5.mockapi.io/airport`;
-        return axios.get(url)
-            .then((res) => {
-                if(res?.data && res.data.length) {
-                    dispatch({type: actionTypes.SET_AIRPOTRS, data: res.data});
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+    return async (dispatch) => {
+        const airportsRef = collection(db, 'airports');
+        const docSnap = await getDocs(airportsRef);
+        let airports = [];
+        docSnap.forEach((doc) => {
+            // console.log(doc.id, " => ", doc.data());
+            airports.push(doc.data());
+        });
+
+        if(airports.length) dispatch({type: actionTypes.SET_AIRPOTRS, data: airports});
+
     }
 }
+
 
 

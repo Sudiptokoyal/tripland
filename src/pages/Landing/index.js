@@ -7,9 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { format } from 'date-fns'
-
-
+import { format } from 'date-fns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import { connect } from "react-redux";
@@ -17,6 +15,7 @@ import { setFlights, setAirports } from '../../store/actions';
 
 import TransportImage from '../../assets/img/transport-scene-4.svg';
 import { useHistory } from 'react-router-dom';
+import { doc, db, updateDoc, } from '../../firebase';
 
 
 const header = {
@@ -89,8 +88,14 @@ const Landing = (props) => {
     if(!props.user.isLoggedIn) {
       history.push('/login?returnUrl=/')
     }
-
     
+    const {uid: id} = props.user;
+    const userDocRef = doc(db, 'users', id)
+    console.log(userDocRef)
+    updateDoc(userDocRef, { flights: flightData})
+      .then((res) => {
+        console.log(res)
+      }).catch(err => console.log);
   }
 
   return (
